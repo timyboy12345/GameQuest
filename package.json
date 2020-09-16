@@ -1,4 +1,10 @@
 {
+    "version": "1.0.0",
+    "author": "Tim Arendsen",
+    "description": "A Laravel application to play games with your friends.",
+    "engines": {
+        "node": "12.x"
+    },
     "private": true,
     "scripts": {
         "dev": "npm run development",
