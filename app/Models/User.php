@@ -37,4 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Overrides the default twillio phone_number attribute to send SMS messages to
+     *
+     * @return integer
+     */
+    public function routeNotificationForTwilio()
+    {
+        return '+31624748522';
+    }
 }

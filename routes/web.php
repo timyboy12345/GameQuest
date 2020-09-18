@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use App\Notifications\GameEnded;
 use Illuminate\Support\Facades\Route;
 
 /*
