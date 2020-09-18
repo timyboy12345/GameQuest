@@ -6,8 +6,6 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Twilio\TwilioChannel;
-use NotificationChannels\Twilio\TwilioSmsMessage;
 
 class GameEnded extends Notification
 {

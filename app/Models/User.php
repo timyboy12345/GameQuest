@@ -39,11 +39,11 @@ class User extends Authenticatable
     ];
 
     /**
-     * Overrides the default twillio phone_number attribute to send SMS messages to
+     * Overrides the default nexmo phone_number attribute to send SMS messages to
      *
      * @return integer
      */
-    public function routeNotificationForTwilio()
+    public function routeNotificationForNexmo()
     {
         return '+31624748522';
     }
