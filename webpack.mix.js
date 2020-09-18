@@ -19,3 +19,5 @@ mix.sass('resources/sass/main.scss', 'public/css')
         processCssUrls: false,
         postCss: [tailwindcss('./tailwind.config.js')],
     });
+
+mix.ts('resources/js/games/autocomplete/controller/app.ts', 'public/js/games/autocomplete/controller.js');
