@@ -1,32 +1,39 @@
 import * as PN from 'pubnub/dist/web/pubnub.js';
 import PubNub = require("pubnub");
-import {UserService} from "./UserService";
-import {GameService} from "./GameService";
+import {UserService} from "./user.service";
+import {Game} from "../../_models/game.interface";
+import {User} from "../../_models/user.interface";
 
 export class ListeningService {
-    constructor(public gameService: GameService) {
+    private _listener: PubNub;
+
+    constructor() {
         const uuid = UserService.getUuid();
 
-        const listener: PubNub = new PN({
+        this._listener = new PN({
             publishKey : process.env.MIX_PUBNUB_PUBLISH_KEY,
             subscribeKey : process.env.MIX_PUBNUB_SUBSCRIBE_KEY,
             uuid: uuid,
         })
 
-        listener.addListener({
+        this._listener.addListener({
             message: function(msg) {
-                console.log(msg);
+                // console.log(msg);
             }
         })
 
-        listener.subscribe({
+        this._listener.subscribe({
             channels: ['test'],
         })
+    }
 
-        listener.publish({
-            channel: 'test',
+    public announceJoinedGame(user: User, game: Game) {
+        this._listener.publish({
+            channel: game.id,
             message: {
-                'title': 'test'
+                'type': 'joinedGame',
+                game,
+                user
             },
         }).then(value => {
             console.log(value)

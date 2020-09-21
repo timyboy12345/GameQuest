@@ -28,4 +28,8 @@ export class CookieUtil {
         // Set it
         document.cookie = name+"=; expires="+date.toUTCString()+"; path=/";
     }
+
+    static hasCookie(name: string) {
+        return this.getCookie(name) != null;
+    }
 }

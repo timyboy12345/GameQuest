@@ -20,6 +20,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('join/{game_id}', [GamesController::class, 'join'])->name('games.join');
+
 Route::prefix('games')->name('games.')->group(function () {
     Route::get('', [GamesController::class, 'games'])->name('games');
 

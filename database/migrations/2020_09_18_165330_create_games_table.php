@@ -17,6 +17,8 @@ class CreateGamesTable extends Migration
             $table->uuid('id')->primary();
             $table->string('type');
             $table->uuid('creator_id');
+            $table->string('state')->default('queue');
+            $table->string('code', 10);
 
             $table->json('data')->default('{}');
 

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function login() {
-        Auth::login(User::all()->first());
+        Auth::login(User::all()->random(1)->first());
         return response()->redirectToIntended('home');
     }
 }

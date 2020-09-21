@@ -16,7 +16,8 @@ mix.disableSuccessNotifications();
 
 mix
     .js('resources/js/app.js', 'public/js')
-    .ts('resources/js/games/autocomplete/controller/app.ts', 'public/js/games/autocomplete/controller.js')
+    .ts('resources/js/games/autocomplete/controller/controller.ts', 'public/js/games/autocomplete/controller.js')
+    .ts('resources/js/games/autocomplete/player/player.ts', 'public/js/games/autocomplete/player.js')
     .sourceMaps();
 
 mix.sass('resources/sass/main.scss', 'public/css')
