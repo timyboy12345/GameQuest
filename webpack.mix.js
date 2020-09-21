@@ -12,7 +12,12 @@ const tailwindcss = require('tailwindcss');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js');
+mix.disableSuccessNotifications();
+
+mix
+    .js('resources/js/app.js', 'public/js')
+    .ts('resources/js/games/autocomplete/controller/app.ts', 'public/js/games/autocomplete/controller.js')
+    .sourceMaps();
 
 mix.sass('resources/sass/main.scss', 'public/css')
     .options({
@@ -20,4 +25,8 @@ mix.sass('resources/sass/main.scss', 'public/css')
         postCss: [tailwindcss('./tailwind.config.js')],
     });
 
-mix.ts('resources/js/games/autocomplete/controller/app.ts', 'public/js/games/autocomplete/controller.js');
+mix.sass('resources/sass/games/autocomplete.scss', 'public/css')
+    .options({
+        processCssUrls: false,
+        postCss: [tailwindcss('./tailwind.config.js')],
+    });

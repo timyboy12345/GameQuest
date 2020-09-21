@@ -31,8 +31,11 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@types/pubnub": "^4.28.2",
+        "js-cookie": "^2.2.1",
         "laravel-echo": "^1.8.1",
-        "pusher-js": "^7.0.0",
-        "tailwindcss": "^1.8.10"
+        "pubnub": "^4.29.7",
+        "tailwindcss": "^1.8.10",
+        "uuid": "^8.3.0"
     }
 }

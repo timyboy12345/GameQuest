@@ -1,3 +1,5 @@
+'use strict';
+
 import {GameController} from "./_controllers/GameController";
 
 const controller: GameController = new GameController();

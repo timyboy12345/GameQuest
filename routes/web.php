@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Web\Auth\LoginController;
+use App\Http\Controllers\Web\Games\Game\AutocompleteController;
+use App\Http\Controllers\Web\Games\GamesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +18,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+
+Route::prefix('games')->name('games.')->group(function () {
+    Route::get('', [GamesController::class, 'games'])->name('games');
+
+    Route::name('autocomplete.')->middleware('auth')->prefix('autocomplete')->group(function () {
+        Route::get('', [AutocompleteController::class, 'info'])->name('info');
+        Route::get('controller', [AutocompleteController::class, 'controller'])->name('controller');
+        Route::get('player', [AutocompleteController::class, 'player'])->name('player');
+    });
 });
+
+Route::get('login', [LoginController::class, 'login'])->name('login');
+Route::post('login', [LoginController::class, 'loginPost']);
