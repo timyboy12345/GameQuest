@@ -62,7 +62,7 @@ Route::middleware('auth:api')->group(function () {
             $game = Auth::user()->games()->findOrFail($game_id);
             $user = \App\Models\User::findOrFail($request->post('user_id'));
 
-            $players = $game->players;
+            $players = $game->players ? $game_id->players : [];
             array_push($players, $user);
             $game->update(['players' => $players]);
 
