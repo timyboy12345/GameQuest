@@ -5,6 +5,7 @@ module.exports = {
     },
     purge: [
         './resources/**/*.html',
+        './resources/**/*.blade.php',
         './resources/**/*.ts',
         './resources/**/*.js'
     ],
