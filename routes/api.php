@@ -68,5 +68,22 @@ Route::middleware('auth:api')->group(function () {
 
             return response()->json($game);
         });
+
+        Route::put('game/{game_id}/questions', function ($game_id, Request $request) {
+            $request->validate([
+                'questions' => 'required|array',
+                'questions.*.id' => 'required|string',
+                'questions.*.question' => 'required|string'
+            ]);
+
+            $game = Auth::user()->games()->findOrFail($game_id);
+
+            $data = $game->data;
+            $data->questions = $request->post('questions');
+
+            $game->update(['data' => $data]);
+
+            return response()->json($game);
+        });
     });
 });

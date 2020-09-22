@@ -5,6 +5,11 @@ import {ButtonService} from "../_services/button.service";
 import {ContinueGameView} from "../_views/continuegame.view";
 import {QueueView} from "../_views/queue.view";
 import {PlayerController} from "./player.controller";
+import {QuestionService} from "../_services/question.service";
+
+import * as settings from '../../settings.json';
+import {QuestionController} from "./question.controller";
+import {Question} from "../../_models/question.interface";
 
 export class GameController {
     public time: number = 0;
@@ -54,7 +59,22 @@ export class GameController {
         this.queueView.showQueueCard(game);
     }
 
-    public startGame() {
+    public async startGame() {
         this.queueView.hideQueueCard();
+        let questions: Question[];
+
+        if (this._game.questions == null) {
+            // The amount of questions
+            const a = this.playerController.players.length * (settings.settings.questions_per_player / settings.settings.answers_per_question)
+
+            questions = QuestionService.getQuestions(a);
+            console.log(questions);
+            await this.gameService.saveQuestions(questions);
+        } else {
+            questions = this._game.questions;
+        }
+
+        const questionController = new QuestionController(this.listeningService);
+        questionController.askQuestions(questions, this.playerController.players, settings.settings.questions_per_player, settings.settings.answers_per_question);
     }
 }

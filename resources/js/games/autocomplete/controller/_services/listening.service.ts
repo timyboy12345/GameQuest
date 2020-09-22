@@ -27,17 +27,6 @@ export class ListeningService {
                 }
             });
         });
-
-        // listener.publish({
-        //     channel: 'test',
-        //     message: {
-        //         'title': 'test'
-        //     },
-        // }).then(value => {
-        //     console.log(value)
-        // }).catch(reason => {
-        //     console.error(reason);
-        // })
     }
 
     private handleEvent(msg: any) {
@@ -54,6 +43,17 @@ export class ListeningService {
     public listen(id: string) {
         this._listener.subscribe({
             channels: [id],
+        })
+    }
+
+    public broadcast(data: {}) {
+        this._listener.publish({
+            channel: this.gameService.getGameUuid(),
+            message: data,
+        }).then(value => {
+            console.log(value)
+        }).catch(reason => {
+            console.error(reason);
         })
     }
 }

@@ -2,6 +2,7 @@ import {CookieUtil} from "../../../_utils/CookieUtil";
 import {Game} from "../../_models/game.interface";
 import axios from 'axios';
 import {GameController} from "../_controllers/game.controller";
+import {Question} from "../../_models/question.interface";
 
 export class GameService {
     static GAME_UUID_IDENTIFIER = 'autocomplete_game_uuid';
@@ -86,5 +87,14 @@ export class GameService {
             });
 
         return game.data;
+    }
+
+    public saveQuestions(questions: Question[]): Promise<Game> {
+        return axios.put(`/api/games/game/${this.getGameUuid()}/questions`, {
+            questions
+        })
+            .then(value => {
+                return value.data;
+            })
     }
 }
