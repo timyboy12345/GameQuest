@@ -14,7 +14,7 @@ jobs:
       - name: Install Dependencies (PHP vendors)
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Install Dependencies (NPM)
-        run: npm install --production
+        run: npm install
       - name: Create DB and schemas
         run: |
           mkdir -p database
