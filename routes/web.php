@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Web\Auth\LoginController;
+use App\Http\Controllers\Web\Auth\LogoutController;
+use App\Http\Controllers\Web\Auth\RegisterController;
 use App\Http\Controllers\Web\Games\Game\AutocompleteController;
 use App\Http\Controllers\Web\Games\GamesController;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +34,12 @@ Route::prefix('games')->name('games.')->group(function () {
     });
 });
 
-Route::get('login', [LoginController::class, 'login'])->name('login');
-Route::post('login', [LoginController::class, 'loginPost']);
+Route::middleware('guest')->group(function () {
+    Route::get('login', [LoginController::class, 'login'])->name('login');
+    Route::post('login', [LoginController::class, 'loginPost']);
+
+    Route::get('register', [RegisterController::class, 'register'])->name('register');
+    Route::post('register', [RegisterController::class, 'registerPost']);
+});
+
+Route::get('logout', [LogoutController::class, 'logout'])->middleware('auth')->name('logout');
