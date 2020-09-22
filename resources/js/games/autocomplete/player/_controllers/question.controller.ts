@@ -45,13 +45,15 @@ export class QuestionController {
     public submitAnswer(answer: string) {
         const a: Answer = {
             id: uuidv4(),
-            answer: answer
+            answer: answer,
         };
 
         this._selectedQuestion.answers.push(a);
 
         // Use PubNub to communicate answer to Controller
         this.gameController.userService.getSavedPlayerInfo().then(user => {
+            a.user_id = user.id;
+
             this.gameController.listeningService.broadcast({
                 'destination': 'controller',
                 'type': 'submitAnswer',

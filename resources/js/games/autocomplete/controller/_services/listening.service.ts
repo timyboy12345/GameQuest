@@ -28,7 +28,7 @@ export class ListeningService {
                     }
 
                     if (msg.message.type != null) {
-                        console.log(msg);
+                        // console.log(msg);
                         l.handleEvent(msg.message);
                     }
                 }
@@ -39,10 +39,16 @@ export class ListeningService {
     private handleEvent(msg: any) {
         switch (msg.type) {
             case "joinedGame":
-                const evt = new CustomEvent("playerJoined", {
+                const jEvt = new CustomEvent("playerJoined", {
                     detail: msg
                 });
-                window.dispatchEvent(evt);
+                window.dispatchEvent(jEvt);
+                break;
+            case "submitAnswer":
+                const aEvt = new CustomEvent("submitAnswer", {
+                    detail: msg
+                });
+                window.dispatchEvent(aEvt);
                 break;
         }
     }
