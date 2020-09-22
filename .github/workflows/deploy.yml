@@ -1,0 +1,48 @@
+name: Production Test and Deploy
+
+on:
+  push:
+    branches: [ 'master' ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Copy ENV Laravel Configuration for CI
+        run: php -r "file_exists('.env') || copy('.env.test', '.env');"
+      - name: Install Dependencies (PHP vendors)
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      - name: Create DB and schemas
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: vendor/bin/phpunit
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd /volume1/laravel_sites/gamequest
+            php73 artisan down
+            git reset --hard
+            git pull
+            php73 /usr/local/bin/composer.phar install --optimize-autoloader --no-dev
+            npm i
+            npm run prod
+            cp .env.prod .env
+            php73 artisan migrate --force
+            php73 artisan cache:clear
+            php73 artisan config:cache
+            php73 artisan route:cache
+            php73 artisan view:clear
+            php73 artisan up
+          host: ${{ secrets.SSH_HOST }}
+          user: ${{ secrets.SSH_USER }}
+          pass: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
