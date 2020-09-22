@@ -8,23 +8,23 @@ import {PlayerController} from "./player.controller";
 
 export class GameController {
     public time: number = 0;
-    public listeningService;
-    public queueView: QueueView;
+    public listeningService: ListeningService;
+    public readonly queueView: QueueView;
+    public readonly gameService: GameService;
+    public readonly playerController: PlayerController;
 
     private _buttonService: ButtonService;
-    private _playerController: PlayerController;
-    private readonly _gameService: GameService;
     private _game: Game;
 
     constructor() {
-        this._gameService = new GameService(this);
-        this.listeningService = new ListeningService(this._gameService);
+        this.gameService = new GameService(this);
+        this.listeningService = new ListeningService(this.gameService);
+        this.playerController = new PlayerController(this);
+        this.queueView = new QueueView(this.playerController);
+
         this._buttonService = new ButtonService(this);
-        this._playerController = new PlayerController(this);
 
-        this.queueView = new QueueView();
-
-        this._gameService.getCurrentGame().then(game => {
+        this.gameService.getCurrentGame().then(game => {
             if (game == null) {
                 this.startNewGame();
             } else {
@@ -35,19 +35,26 @@ export class GameController {
     }
 
     public continueGame() {
-        ContinueGameView.hideContinueCard();
-
-        this._gameService.getCurrentGame().then(value => {
-            this._game = value;
-            this.queueView.showQueueCard(value);
+        this.gameService.getCurrentGame().then(value => {
+            this.startQueue(value);
         })
     }
 
     public startNewGame() {
-        ContinueGameView.hideContinueCard();
-
-        this._gameService.startNewGame().then(game => {
-            this.queueView.showQueueCard(game)
+        this.gameService.startNewGame().then(game => {
+            this.startQueue(game);
         });
+    }
+
+    private startQueue(game: Game) {
+        this.playerController.setPlayers(game.players);
+        this.listeningService.listen(game.id);
+        ContinueGameView.hideContinueCard();
+        this._game = game;
+        this.queueView.showQueueCard(game);
+    }
+
+    public startGame() {
+        this.queueView.hideQueueCard();
     }
 }

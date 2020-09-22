@@ -12,8 +12,6 @@ export class ListeningService {
         this._playerService = new PlayerService();
 
         this._playerService.getPlayer().then(player => {
-            const gameId = this.gameService.getGameUuid();
-
             this._listener = new PN({
                 publishKey: process.env.MIX_PUBNUB_PUBLISH_KEY,
                 subscribeKey: process.env.MIX_PUBNUB_SUBSCRIBE_KEY,
@@ -28,10 +26,6 @@ export class ListeningService {
                     }
                 }
             });
-
-            this._listener.subscribe({
-                channels: [gameId],
-            })
         });
 
         // listener.publish({
@@ -55,5 +49,11 @@ export class ListeningService {
                 window.dispatchEvent(evt);
                 break;
         }
+    }
+
+    public listen(id: string) {
+        this._listener.subscribe({
+            channels: [id],
+        })
     }
 }

@@ -23,13 +23,13 @@
 
     <div class="py-8 bg-indigo-800 text-white">
         <div class="w-10/12 mx-auto flex flex-wrap">
-            <div class="w-1/2">
+            <div class="w-1/2 p-4">
                 <h1 class="text-xl font-bold">Hoe werkt het?</h1>
                 <p>In het begin van het spel stuurt iedere speler een vraag in. Al deze vragen worden samengevoegd tot
                     de perfecte kennisquiz van jouw spelgroep. Alle spelers verzinnen antwoorden op verschillende
                     vragen. Uiteindelijk stemt iedereen tegelijkertijd op de antwoorden om tot een winnaar te komen.</p>
             </div>
-            <div class="w-1/2">
+            <div class="w-1/2 p-4">
                 <h1 class="text-xl font-bold">Ik wil meer spanning!</h1>
                 <p>Wil je het spel spannender maken? Dat kan! Activeer "party-modus" en de verliezer van elke ronde
                     krijgt een straf. Zo is het mogelijk dat een verliezer een atje moet nemen, of iemand anders een

@@ -8,9 +8,9 @@ export interface Game {
     answers?: Answer[];
     code: string;
     state: GameState;
+    players?: User[];
     data?: {
         name?: string;
-        participants: User[];
     }
 }
 

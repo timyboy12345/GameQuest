@@ -35,7 +35,6 @@ jobs:
             php73 /usr/local/bin/composer.phar install --optimize-autoloader --no-dev
             npm i
             npm run prod
-            cp .env.prod .env
             php73 artisan migrate --force
             php73 artisan cache:clear
             php73 artisan config:cache

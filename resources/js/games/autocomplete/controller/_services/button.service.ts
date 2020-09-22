@@ -15,5 +15,9 @@ export class ButtonService {
         document.querySelector("#continueGameButton").addEventListener("click", function () {
             c.continueGame();
         });
+
+        document.querySelector("#startGameButton").addEventListener("click", function () {
+            c.startGame();
+        });
     }
 }

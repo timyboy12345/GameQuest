@@ -20,6 +20,7 @@ class CreateGamesTable extends Migration
             $table->string('state')->default('queue');
             $table->string('code', 10);
 
+            $table->json('players')->default('[]');
             $table->json('data')->default('{}');
 
             $table->foreign('creator_id')->references('id')->on('users');

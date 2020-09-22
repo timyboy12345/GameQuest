@@ -53,5 +53,20 @@ Route::middleware('auth:api')->group(function () {
 
             return response()->json($game);
         });
+
+        Route::post('game/{game_id}/players', function ($game_id, Request $request) {
+            $request->validate([
+                'user_id' => 'required|exists:users,id'
+            ]);
+
+            $game = Auth::user()->games()->findOrFail($game_id);
+            $user = \App\Models\User::findOrFail($request->post('user_id'));
+
+            $players = $game->players;
+            array_push($players, $user);
+            $game->update(['players' => $players]);
+
+            return response()->json($game);
+        });
     });
 });

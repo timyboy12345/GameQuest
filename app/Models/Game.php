@@ -15,11 +15,13 @@ class Game extends Model
         'type',
         'creator_id',
         'data',
+        'players',
         'state',
         'code'
     ];
 
     protected $casts = [
-        'data' => 'json'
+        'data' => 'object',
+        'players' => 'array'
     ];
 }

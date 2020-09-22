@@ -14,17 +14,13 @@ export class ListeningService {
             publishKey : process.env.MIX_PUBNUB_PUBLISH_KEY,
             subscribeKey : process.env.MIX_PUBNUB_SUBSCRIBE_KEY,
             uuid: uuid,
-        })
+        });
 
         this._listener.addListener({
             message: function(msg) {
                 // console.log(msg);
             }
-        })
-
-        this._listener.subscribe({
-            channels: ['test'],
-        })
+        });
     }
 
     public announceJoinedGame(user: User, game: Game) {

@@ -33,11 +33,7 @@
 
             <div class="w-full lg:w-3/4">
                 <h3 class="text-gray-800 mx-2">{{ __("Spelers") }}</h3>
-                <div class="flex flex-wrap" id="playerList">
-                    @for ($i = 0; $i < 12; $i++)
-                        <div class="player rounded px-4 py-2 bg-indigo-800 text-white m-2">Test</div>
-                    @endfor
-                </div>
+                <div class="flex flex-wrap" id="playerList"></div>
             </div>
 
             <div class="w-full lg:w-1/4">
@@ -46,10 +42,16 @@
                         <h1 class="card-title">Doe mee!</h1>
 
                         <h3 class="text-sm text-gray-800">Scan de QR code</h3>
-                        <img class="w-full" id="queue-qr-canvas">
+                        <img alt="{{ __("QR code om deel te nemen") }}" class="w-full" id="queue-qr-canvas" src="">
 
                         <h3 class="text-sm text-gray-800">Of gebruik de URL</h3>
                         <p class="text-indigo-900">{{ route('games.join', ['']) }}/<span id="data-id"></span></p>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="btn btn-indigo cursor-pointer" id="startGameButton">
+                            Starten
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,22 +65,22 @@
                     Username
                 </label>
                 <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="username" type="text" placeholder="Username">
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="username" type="text" placeholder="Username">
             </div>
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                     Password
                 </label>
                 <input
-                    class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password" type="password" placeholder="******************">
+                        class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        id="password" type="password" placeholder="******************">
                 <p class="text-red-500 text-xs italic">Please choose a password.</p>
             </div>
             <div class="flex items-center justify-between">
                 <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="button">
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="button">
                     Sign In
                 </button>
                 <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">

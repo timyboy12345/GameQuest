@@ -61,7 +61,7 @@ export class GameService {
         const uuid = this.getGameUuid();
 
         await this.getGame(uuid).then(game => {
-            return game.data.participants;
+            return game.players;
         }).catch(reason => {
 
         })
@@ -83,7 +83,7 @@ export class GameService {
                 t.setGameUuid(g.id);
 
                 return data;
-            })
+            });
 
         return game.data;
     }
