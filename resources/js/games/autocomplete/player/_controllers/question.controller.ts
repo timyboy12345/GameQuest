@@ -49,6 +49,7 @@ export class QuestionController {
         };
 
         this._selectedQuestion.answers.push(a);
+        const sq = this._selectedQuestion;
 
         // Use PubNub to communicate answer to Controller
         this.gameController.userService.getSavedPlayerInfo().then(user => {
@@ -58,7 +59,7 @@ export class QuestionController {
                 'destination': 'controller',
                 'type': 'submitAnswer',
                 'player_id': user.id,
-                'question': this._selectedQuestion,
+                'question': sq,
                 'answer': a
             });
         });

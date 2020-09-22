@@ -15,7 +15,9 @@
                 <div class="card-title text-indigo-900 bold">Er was nog een spel bezig</div>
                 <p class="card-text">Wil je dit spel doorzetten, of wil je een nieuw spel starten?</p>
 
-                <h2 class="text-indigo-900 data-name py-4"></h2>
+                <h2 class="text-indigo-900 data-name pt-4 font-bold">SPELNAAM</h2>
+                <p class="text-sm text-gray-600 pb-4">We kunnen proberen dit spel door te zetten, maar het zou kunnen
+                    dat dit niet meer kan.</p>
             </div>
 
             <div class="card-footer">
@@ -31,12 +33,12 @@
                 <h1 class="text-center text-4xl text-indigo-900 data-name">NAME</h1>
             </div>
 
-            <div class="w-full lg:w-3/4">
+            <div class="w-full md:w-3/4">
                 <h3 class="text-gray-800 mx-2">{{ __("Spelers") }}</h3>
                 <div class="flex flex-wrap" id="playerList"></div>
             </div>
 
-            <div class="w-full lg:w-1/4">
+            <div class="w-full md:w-1/4">
                 <div class="card mt-8">
                     <div class="card-body">
                         <h1 class="card-title">Doe mee!</h1>
@@ -64,7 +66,16 @@
             <p class="text-gray-800">{{ __("Beantwoord de vragen op je eigen apparaat") }}</p>
         </div>
 
-        <div class="w-10/12 mx-auto flex justify-center" id="answersCardPlayers" style="height: 200px;"></div>
+        <div class="w-10/12 mx-auto flex flex-wrap justify-center" id="answersCardPlayers"></div>
+    </div>
+
+    <div class="w-full mt-16 hidden" id="votingCard">
+        <div class="text-center mb-16">
+            <h3 class="text-indigo-900 font-bold text-center text-2xl">{{ __("Dat werd tijd!") }}</h3>
+            <p class="text-gray-800">{{ __("Alle vragen zijn beantwoord, tijd om te stemmen.") }}</p>
+        </div>
+
+        <div class="w-10/12 mx-auto flex flex-wrap justify-center" id="answersCardPlayers"></div>
     </div>
 
     <script src="{{ mix('js/games/autocomplete/controller.js') }}"></script>

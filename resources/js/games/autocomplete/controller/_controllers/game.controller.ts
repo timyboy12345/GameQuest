@@ -11,6 +11,7 @@ import * as settings from '../../settings.json';
 import {QuestionController} from "./question.controller";
 import {Question} from "../../_models/question.interface";
 import {AnsweringView} from "../_views/answering.view";
+import {VotingView} from "../_views/voting.view";
 
 export class GameController {
     public time: number = 0;
@@ -28,7 +29,7 @@ export class GameController {
         this.listeningService = new ListeningService(this.gameService);
         this.playerController = new PlayerController(this);
         this.queueView = new QueueView(this.playerController);
-        this.questionController = new QuestionController(this.listeningService);
+        this.questionController = new QuestionController(this.listeningService, this);
 
         this._buttonService = new ButtonService(this);
 
@@ -84,7 +85,16 @@ export class GameController {
         // Send out questions to players
         this.questionController.askQuestions(questions, this.playerController.players, settings.settings.questions_per_player, settings.settings.answers_per_question).then(r => {
             console.log("All questions are send");
-            AnsweringView.showAnsweringCard(this.playerController.players);
+            AnsweringView.showAnsweringCard(this.playerController.players, questions);
         });
+    }
+
+    public updateAnsweringCard(questions) {
+        AnsweringView.showAnsweringCard(this.playerController.players, questions);
+    }
+
+    public startVoting() {
+        AnsweringView.hideAnsweringCard();
+        VotingView.showVotingCard();
     }
 }

@@ -14,7 +14,7 @@
             <h1 class="text-indigo-900 text-3xl font-bold">
                 {{ __("Je doet mee") }}
             </h1>
-            <h3 class="text-gray-800">
+            <h3 class="text-gray-800 w-10/12 mx-auto">
                 {{ __("Even geduld, je kan vragen beantwoorden zodra het spel wordt gestart.") }}
             </h3>
 
@@ -24,8 +24,8 @@
         </div>
     </div>
 
-    <div class="w-full max-w-xl mx-auto mt-16 hidden" id="answerCard">
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="w-full md:max-w-xl mx-auto mt-16 hidden" id="answerCard">
+        <div class="bg-white shadow-md md:rounded px-8 pt-6 pb-8 mb-4">
             <p class="text-gray-800 mb-4">Bedenk een grappig, leuk of ongepast antwoord op de vraag hieronder. Het
                 antwoord met de meeste punten wint!</p>
 
