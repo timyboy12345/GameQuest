@@ -10,12 +10,14 @@ import {QuestionService} from "../_services/question.service";
 import * as settings from '../../settings.json';
 import {QuestionController} from "./question.controller";
 import {Question} from "../../_models/question.interface";
+import {AnsweringView} from "../_views/answering.view";
 
 export class GameController {
     public time: number = 0;
     public listeningService: ListeningService;
     public readonly queueView: QueueView;
     public readonly gameService: GameService;
+    public readonly questionController: QuestionController;
     public readonly playerController: PlayerController;
 
     private _buttonService: ButtonService;
@@ -26,6 +28,7 @@ export class GameController {
         this.listeningService = new ListeningService(this.gameService);
         this.playerController = new PlayerController(this);
         this.queueView = new QueueView(this.playerController);
+        this.questionController = new QuestionController(this.listeningService);
 
         this._buttonService = new ButtonService(this);
 
@@ -63,18 +66,25 @@ export class GameController {
         this.queueView.hideQueueCard();
         let questions: Question[];
 
+        // Check if the game already has questions
         if (this._game.questions == null) {
-            // The amount of questions
+            // Calculate the wanted amount of questions
             const a = this.playerController.players.length * (settings.settings.questions_per_player / settings.settings.answers_per_question)
 
             questions = QuestionService.getQuestions(a);
-            console.log(questions);
             await this.gameService.saveQuestions(questions);
         } else {
+            // Get questions from the game
             questions = this._game.questions;
         }
 
-        const questionController = new QuestionController(this.listeningService);
-        questionController.askQuestions(questions, this.playerController.players, settings.settings.questions_per_player, settings.settings.answers_per_question);
+        // Save questions to QuestionController
+        this.questionController.setQuestions(questions);
+
+        // Send out questions to players
+        this.questionController.askQuestions(questions, this.playerController.players, settings.settings.questions_per_player, settings.settings.answers_per_question).then(r => {
+            console.log("All questions are send");
+            AnsweringView.showAnsweringCard(this.playerController.players);
+        });
     }
 }

@@ -10,15 +10,16 @@ export class GameService {
     }
 
     public getGameUuid(): string {
-        if (CookieUtil.hasCookie(GameService.GAME_UUID_IDENTIFIER)) {
-            return CookieUtil.getCookie(GameService.GAME_UUID_IDENTIFIER);
-        }
-
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);
 
         if (params.has("gameId")) {
+            CookieUtil.setCookie(GameService.GAME_UUID_IDENTIFIER, params.get("gameId"));
             return params.get("gameId");
+        }
+
+        if (CookieUtil.hasCookie(GameService.GAME_UUID_IDENTIFIER)) {
+            return CookieUtil.getCookie(GameService.GAME_UUID_IDENTIFIER);
         }
 
         return null;

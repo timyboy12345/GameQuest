@@ -3,24 +3,20 @@ import axios from 'axios';
 import {User} from "../../_models/user.interface";
 
 export class UserService {
-    public static LOCALSTORAGE_PLAYER_IDENTIFIER = 'autocomplete_player_uuid';
-
-    /**
-     * Returns the device/player UUID of the player
-     * @returns string
-     */
-    static getUuid() {
-        if (localStorage.getItem(this.LOCALSTORAGE_PLAYER_IDENTIFIER) == null) {
-            const uuid = uuidv4();
-            localStorage.setItem(this.LOCALSTORAGE_PLAYER_IDENTIFIER, uuid);
-        }
-
-        return localStorage.getItem(this.LOCALSTORAGE_PLAYER_IDENTIFIER);
-    }
+    private _user: User;
 
     public async getPlayerInfo(): Promise<User> {
         return await axios.get('/api/user').then(value => {
+            this._user = value.data;
             return value.data;
         });
+    }
+
+    public async getSavedPlayerInfo(): Promise<User> {
+        if (this._user) {
+            return Promise.resolve(this._user);
+        } else {
+            return this.getPlayerInfo();
+        }
     }
 }

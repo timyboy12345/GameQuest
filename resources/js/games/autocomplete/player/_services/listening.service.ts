@@ -1,13 +1,13 @@
 import * as PN from 'pubnub/dist/web/pubnub.js';
 import {UserService} from "./user.service";
-import {Game} from "../../_models/game.interface";
-import {User} from "../../_models/user.interface";
 import PubNub = require("pubnub");
+import {PublishResponse} from "pubnub";
+import {GameController} from "../_controllers/game.controller";
 
 export class ListeningService {
     private _listener: PubNub;
 
-    constructor() {
+    constructor(private gameController: GameController) {
         const uuid = UserService.getUuid();
         const l = this;
 
@@ -19,6 +19,12 @@ export class ListeningService {
 
         this._listener.addListener({
             message: function (msg) {
+                if (msg.message.destination != null) {
+                    if (msg.message.destination != 'player') {
+                        return;
+                    }
+                }
+
                 if (msg.message.type != null) {
                     l.handleEvent(msg.message);
                 }
@@ -26,29 +32,38 @@ export class ListeningService {
         });
     }
 
-    private handleEvent(msg: any) {
+    private async handleEvent(msg: any) {
         switch (msg.type) {
             case "askQuestions":
-                const evt = new CustomEvent("askQuestions", {
-                    detail: msg
-                });
-                window.dispatchEvent(evt);
+                // Check if the questions are for the logged in user
+                const user = await this.gameController.userService.getSavedPlayerInfo();
+
+                if (msg.player.id == user.id) {
+                    const evt = new CustomEvent("askQuestions", {
+                        detail: msg
+                    });
+                    window.dispatchEvent(evt);
+                }
+
                 break;
         }
     }
 
-    public announceJoinedGame(user: User, game: Game) {
-        this._listener.publish({
-            channel: game.id,
-            message: {
-                'type': 'joinedGame',
-                game,
-                user
-            },
+    public broadcast(data: {}): Promise<PublishResponse> {
+        return this._listener.publish({
+            channel: this.gameController.gameService.getGameUuid(),
+            message: data,
         }).then(value => {
-            console.log(value)
+            return value;
         }).catch(reason => {
             console.error(reason);
+            return reason;
+        })
+    }
+
+    public listen(id: string) {
+        this._listener.subscribe({
+            channels: [id],
         })
     }
 }

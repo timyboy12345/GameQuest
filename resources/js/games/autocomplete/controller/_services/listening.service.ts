@@ -2,6 +2,7 @@ import * as PN from 'pubnub/dist/web/pubnub.js';
 import {GameService} from "./game.service";
 import {PlayerService} from "../../player/_services/player.service";
 import PubNub = require("pubnub");
+import {PublishResponse} from "pubnub";
 
 export class ListeningService {
     private _playerService: PlayerService;
@@ -20,8 +21,14 @@ export class ListeningService {
 
             this._listener.addListener({
                 message: function (msg) {
-                    console.log(msg);
+                    if (msg.message.destination != null) {
+                        if (msg.message.destination != 'controller') {
+                            return;
+                        }
+                    }
+
                     if (msg.message.type != null) {
+                        console.log(msg);
                         l.handleEvent(msg.message);
                     }
                 }
@@ -46,14 +53,15 @@ export class ListeningService {
         })
     }
 
-    public broadcast(data: {}) {
-        this._listener.publish({
+    public broadcast(data: {}): Promise<PublishResponse> {
+        return this._listener.publish({
             channel: this.gameService.getGameUuid(),
             message: data,
         }).then(value => {
-            console.log(value)
+            return value;
         }).catch(reason => {
             console.error(reason);
+            return reason;
         })
     }
 }
