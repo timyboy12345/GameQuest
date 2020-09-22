@@ -14,6 +14,7 @@ export class InputView {
     }
 
     public setQuestion(question: string) {
+        document.querySelector("#queueCard").classList.add("hidden");
         document.querySelector("#answerCard").classList.remove("hidden");
         document.querySelector("#answerCard #question").innerHTML = question;
     }
