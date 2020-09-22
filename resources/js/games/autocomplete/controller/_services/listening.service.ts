@@ -18,7 +18,7 @@ export class ListeningService {
                 publishKey: process.env.MIX_PUBNUB_PUBLISH_KEY,
                 subscribeKey: process.env.MIX_PUBNUB_SUBSCRIBE_KEY,
                 uuid: player.id,
-            })
+            });
 
             this._listener.addListener({
                 message: function (msg) {
@@ -27,7 +27,7 @@ export class ListeningService {
                         l.handleEvent(msg.message);
                     }
                 }
-            })
+            });
 
             this._listener.subscribe({
                 channels: [gameId],

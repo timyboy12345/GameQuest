@@ -5,7 +5,7 @@
 @section('theme-border', 'gray-100')
 
 @section('head')
-    <link rel="stylesheet" href="{{ asset('css/autocomplete.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ mix('css/autocomplete.css') }}" type="text/css">
 @endsection
 
 @section('content')
@@ -91,5 +91,5 @@
         </p>
     </div>
 
-    <script src="{{ asset('js/games/autocomplete/controller.js') }}"></script>
+    <script src="{{ mix('js/games/autocomplete/controller.js') }}"></script>
 @endsection

@@ -18,16 +18,14 @@ mix
     .js('resources/js/app.js', 'public/js')
     .ts('resources/js/games/autocomplete/controller/controller.ts', 'public/js/games/autocomplete/controller.js')
     .ts('resources/js/games/autocomplete/player/player.ts', 'public/js/games/autocomplete/player.js')
-    .sourceMaps();
-
-mix.sass('resources/sass/main.scss', 'public/css')
+    .sourceMaps()
+    .sass('resources/sass/main.scss', 'public/css')
+    .sass('resources/sass/games/autocomplete.scss', 'public/css')
     .options({
         processCssUrls: false,
         postCss: [tailwindcss('./tailwind.config.js')],
     });
 
-mix.sass('resources/sass/games/autocomplete.scss', 'public/css')
-    .options({
-        processCssUrls: false,
-        postCss: [tailwindcss('./tailwind.config.js')],
-    });
+if (mix.inProduction()) {
+    mix.version();
+}

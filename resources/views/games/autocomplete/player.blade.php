@@ -5,5 +5,5 @@
 @section('theme-border', 'gray-100')
 
 @section('content')
-    <script src="{{ asset('js/games/autocomplete/player.js') }}"></script>
+    <script src="{{ mix('js/games/autocomplete/player.js') }}"></script>
 @endsection
