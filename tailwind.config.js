@@ -1,14 +1,9 @@
 module.exports = {
     future: {
         removeDeprecatedGapUtilities: true,
-        purgeLayersByDefault: true,
+        purgeLayersByDefault: false,
     },
-    purge: [
-        './resources/**/*.html',
-        './resources/**/*.blade.php',
-        './resources/**/*.ts',
-        './resources/**/*.js'
-    ],
+    purge: false,
     theme: {
         colors: {
             transparent: 'transparent',

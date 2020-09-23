@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('theme-bg', 'indigo-800')
-@section('theme-text', 'white')
-@section('theme-border', 'gray-100')
+@section('theme-bg', 'bg-indigo-800')
+@section('theme-text', 'text-white')
+@section('theme-border', 'border-gray-100')
 
 @section('content')
     <div class="text-center py-16 flex indig flex-col">
