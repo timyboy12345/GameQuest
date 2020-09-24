@@ -37,4 +37,19 @@
             </div>
         </div>
     </div>
+
+    <div class="py-8">
+        <div class="w-10/12 mx-auto flex flex-wrap">
+            <div class="w-1/2 p-4">
+                <h1 class="text-xl font-bold">Hoe nodig ik vrienden uit?</h1>
+                <p>Wanneer je een nieuw spel start krijg je een QR-code en een URL te zien. Als andere spelers deze
+                    QR-code scannen, of naar de URL gaan, kunnen ze inloggen om mee te doen.</p>
+            </div>
+            <div class="w-1/2 p-4">
+                <h1 class="text-xl font-bold">Waarom heb ik een account nodig?</h1>
+                <p>Momenteel gebruiken we accounts om ongewenst gebruik tegen te gaan. Misschien dat we in de toekomst
+                    niet verplichten om een account aan te maken, maar momenteel is het een verplichting.</p>
+            </div>
+        </div>
+    </div>
 @endsection

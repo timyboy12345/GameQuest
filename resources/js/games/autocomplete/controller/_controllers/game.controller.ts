@@ -12,6 +12,7 @@ import {QuestionController} from "./question.controller";
 import {Question} from "../../_models/question.interface";
 import {AnsweringView} from "../_views/answering.view";
 import {VotingView} from "../_views/voting.view";
+import {LoadingView} from "../_views/loading.view";
 
 export class GameController {
     public time: number = 0;
@@ -20,6 +21,7 @@ export class GameController {
     public readonly gameService: GameService;
     public readonly questionController: QuestionController;
     public readonly playerController: PlayerController;
+    public readonly loadingView: LoadingView;
 
     private _buttonService: ButtonService;
     private _game: Game;
@@ -30,6 +32,7 @@ export class GameController {
         this.playerController = new PlayerController(this);
         this.queueView = new QueueView(this.playerController);
         this.questionController = new QuestionController(this.listeningService, this);
+        this.loadingView = new LoadingView(this);
 
         this._buttonService = new ButtonService(this);
 
@@ -93,8 +96,18 @@ export class GameController {
         AnsweringView.showAnsweringCard(this.playerController.players, questions);
     }
 
-    public startVoting() {
-        AnsweringView.hideAnsweringCard();
+    public async startVoting() {
+        this.loadingView.hideLoading();
         VotingView.showVotingCard();
+
+        await this.wait(3);
+
+        VotingView.hideVotingCard();
+    }
+
+    public async wait(seconds: number = 3): Promise<void> {
+        return new Promise((resolve) => {
+            window.setTimeout(() => resolve(), seconds * 1000)
+        });
     }
 }

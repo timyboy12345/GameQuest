@@ -3,6 +3,8 @@ import {User} from "../../_models/user.interface";
 import {ListeningService} from "../_services/listening.service";
 import {Answer} from "../../_models/answer.interface";
 import {GameController} from "./game.controller";
+import {Game} from "../../_models/game.interface";
+import {AnsweringView} from "../_views/answering.view";
 
 export class QuestionController {
     private _questions: Question[];
@@ -47,7 +49,12 @@ export class QuestionController {
             this.gameController.updateAnsweringCard(this._questions);
 
             if (this.allQuestionsAnswered()) {
-                this.gameController.startVoting();
+                AnsweringView.hideAnsweringCard();
+                this.gameController.loadingView.showLoading();
+
+                this.saveQuestions().then(() => {
+                    this.gameController.startVoting();
+                });
             }
         } else {
             console.log("Question not found");
@@ -64,5 +71,9 @@ export class QuestionController {
         })
 
         return true;
+    }
+
+    private saveQuestions(): Promise<Game> {
+        return this.gameController.gameService.saveQuestions(this._questions);
     }
 }

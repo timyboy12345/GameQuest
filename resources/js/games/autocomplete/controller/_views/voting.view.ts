@@ -8,4 +8,8 @@ export class VotingView {
     static showVotingCard() {
         document.querySelector("#votingCard").classList.remove("hidden");
     }
+
+    static hideVotingCard() {
+        document.querySelector("#votingCard").classList.add("hidden");
+    }
 }

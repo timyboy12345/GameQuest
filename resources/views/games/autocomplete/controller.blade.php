@@ -6,9 +6,18 @@
 
 @section('head')
     <link rel="stylesheet" href="{{ mix('css/autocomplete.css') }}" type="text/css">
+    <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css"
+          integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous">
 @endsection
 
 @section('content')
+    <div class="w-full my-24 hidden" id="loadingCard">
+        <div class="flex flex-col text-center">
+            <h1 class="text-xl text-indigo-900 mb-8 font-bold" data-default="{{ __("Bijna klaar") }}"></h1>
+            <i class="text-indigo-900 mx-auto fas fa-circle-notch fa-spin fa-5x"></i>
+        </div>
+    </div>
+
     <div class="w-full max-w-xs md:max-w-sm lg:max-w-md mx-auto mt-16 hidden" id="alreadyPlayingCard">
         <div class="card">
             <div class="card-body">
