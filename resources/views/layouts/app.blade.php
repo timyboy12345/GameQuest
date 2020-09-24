@@ -43,7 +43,11 @@
             @auth
                 <a href="{{ route('logout') }}"
                    class="block mt-4 md:inline-block md:mt-0 @yield('theme-text', 'text-teal-200') hover:text-white mr-4">
-                    Uitloggen
+                    {{ __("Uitloggen") }}
+                </a>
+                <a href="{{ route('settings.settings') }}"
+                   class="block mt-4 md:inline-block md:mt-0 @yield('theme-text', 'text-teal-200') hover:text-white mr-4">
+                    {{ __("Instellingen") }}
                 </a>
             @else
                 <a href="{{ route('login') }}"

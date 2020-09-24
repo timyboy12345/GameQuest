@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex flex-wrap flex-row justify-between w-11/12 md:w-3/4 mx-auto min-h-screen mt-10">
+    <div class="flex flex-wrap flex-row justify-between w-11/12 md:w-3/4 mx-auto mt-10">
         <div class="w-100 sm:w-1/2 lg:w-1/3 mb-5">
             <a href="{{ route('games.autocomplete.info') }}" class="block m-5 rounded overflow-hidden shadow-lg">
                 <div class="h-5 bg-indigo-800"></div>

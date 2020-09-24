@@ -42,4 +42,8 @@ Route::middleware('guest')->group(function () {
     Route::post('register', [RegisterController::class, 'registerPost']);
 });
 
+Route::prefix('settings')->namespace('Settings')->name('settings.')->group(function() {
+    Route::get('', [\App\Http\Controllers\Web\Settings\SettingsController::class, 'settings'])->name('settings');
+});
+
 Route::get('logout', [LogoutController::class, 'logout'])->middleware('auth')->name('logout');
