@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Game;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -60,9 +61,9 @@ Route::middleware('auth:api')->group(function () {
             ]);
 
             $game = Auth::user()->games()->findOrFail($game_id);
-            $user = \App\Models\User::findOrFail($request->post('user_id'));
+            $user = User::findOrFail($request->post('user_id'));
 
-            $players = $game->players ? $game_id->players : [];
+            $players = $game->players ? $game->players : [];
             array_push($players, $user);
             $game->update(['players' => $players]);
 
