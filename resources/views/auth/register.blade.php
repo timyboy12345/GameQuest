@@ -15,7 +15,7 @@
                     </label>
                     <input autofocus
                         class="shadow appearance-none border @error('name') border-red-500 mb-1 @enderror rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="name" type="email" name="name" placeholder="{{ __("Naam") }}" value="{{ old('name') }}">
+                        id="name" type="text" name="name" placeholder="{{ __("Naam") }}" value="{{ old('name') }}">
 
                     @error('name')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -28,7 +28,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border @error('email') border-red-500 mb-1 @enderror rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="email" type="text" name="email" placeholder="{{ __("Email") }}" value="{{ old('email') }}">
+                        id="email" type="email" name="email" placeholder="{{ __("Email") }}" value="{{ old('email') }}">
 
                     @error('email')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>

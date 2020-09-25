@@ -8,9 +8,14 @@ import {AnsweringView} from "../_views/answering.view";
 
 export class QuestionController {
     private _questions: Question[];
+    private _highlightedQuestion: Question;
 
-    get questions() {
+    get questions(): Question[] {
         return this._questions;
+    }
+
+    get highlightedQuestion(): Question {
+        return this._highlightedQuestion;
     }
 
     constructor(private listeningService: ListeningService,
@@ -25,6 +30,15 @@ export class QuestionController {
             } = evt.detail;
 
             this.answerQuestion(data.question.id, data.answer);
+        }) as EventListener)
+
+        window.addEventListener("submitVote", ((evt: CustomEvent) => {
+            const data: {
+                answer_id: string,
+                user_id: string
+            } = evt.detail;
+
+            this.submitVote(data.answer_id);
         }) as EventListener)
     }
 
@@ -45,11 +59,20 @@ export class QuestionController {
         return;
     }
 
+    private saveQuestions(): Promise<Game> {
+        return this.gameController.gameService.saveQuestions(this._questions);
+    }
+
+    public findQuestion(question_id: string) {
+        return this._questions.find(q => q.id == question_id);
+    }
+
     public answerQuestion(question_id: string, answer: Answer) {
         const question: Question = this._questions.find(q => q.id == question_id);
 
         if (question) {
             question.answers.push(answer);
+
             this.gameController.updateAnsweringCard(this._questions);
 
             if (this.allQuestionsAnswered()) {
@@ -68,20 +91,29 @@ export class QuestionController {
     public allQuestionsAnswered(): boolean {
         const totalPlayers = this.gameController.playerController.players.length;
 
-        this._questions.forEach(q => {
-            if (q.answers.length <= totalPlayers) {
-                return false;
-            }
-        })
-
-        return true;
+        const notAllQuestionsAnswered = this._questions.find(q => totalPlayers > q.answers.length);
+        return notAllQuestionsAnswered == null;
     }
 
-    private saveQuestions(): Promise<Game> {
-        return this.gameController.gameService.saveQuestions(this._questions);
+    public getNextQuestionToVoteOn(): Question {
+        if (this._highlightedQuestion == null){
+            this._highlightedQuestion = this._questions[0];
+            return this._highlightedQuestion;
+        }
+
+        if (this._questions.indexOf(this._highlightedQuestion) == this._questions.length) {
+            this._highlightedQuestion = null;
+            return null;
+        }
+
+        this._highlightedQuestion = this._questions[this.highlightedQuestion ? this._questions.indexOf(this._highlightedQuestion) + 1 : 0];
+        return this._highlightedQuestion
     }
 
-    public findQuestion(question_id: string) {
-        return this._questions.find(q => q.id == question_id);
+    public submitVote(answer_id: string) {
+        const answer = this._highlightedQuestion.answers.find(a => a.id == answer_id);
+        if (answer) {
+            console.log(answer);
+        }
     }
 }

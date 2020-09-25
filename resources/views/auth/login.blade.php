@@ -33,6 +33,12 @@
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div class="mb-6">
+                    <input {{ request()->old('remember') != null ? 'checked' : '' }} type="checkbox" name="remember" id="remember">
+                    <label for="remember" class="text-gray-700 text-sm font-bold" >{{ __("Onthouden") }}</label>
+                </div>
+
                 <div class="flex items-center justify-between">
                     <button
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

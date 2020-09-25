@@ -1,8 +1,8 @@
 import * as PN from 'pubnub/dist/web/pubnub.js';
 import {UserService} from "./user.service";
-import PubNub = require("pubnub");
 import {PublishResponse} from "pubnub";
 import {GameController} from "../_controllers/game.controller";
+import PubNub = require("pubnub");
 
 export class ListeningService {
     private _listener: PubNub;
@@ -33,6 +33,7 @@ export class ListeningService {
     }
 
     private async handleEvent(msg: any) {
+        console.log(msg);
         switch (msg.type) {
             case "askQuestions":
                 // Check if the questions are for the logged in user
@@ -44,6 +45,13 @@ export class ListeningService {
                     });
                     window.dispatchEvent(evt);
                 }
+
+                break;
+            case "voteOnAnswers":
+                const evt = new CustomEvent("voteOnAnswers", {
+                    detail: msg
+                });
+                window.dispatchEvent(evt);
 
                 break;
         }

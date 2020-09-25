@@ -20,7 +20,7 @@ class LoginController extends Controller
             'password' => 'required|string'
         ]);
 
-        if (Auth::attempt($request->only(['email', 'password']))) {
+        if (Auth::attempt($request->only(['email', 'password']), $request->boolean('remember'))) {
             return redirect()->intended(route('home'));
         } else {
             return redirect()->back()->withInput($request->only(['email']));

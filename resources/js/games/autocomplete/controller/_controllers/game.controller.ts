@@ -68,6 +68,9 @@ export class GameController {
         this.queueView.showQueueCard(game);
     }
 
+    /**
+     * This starts the game
+     */
     public async startGame() {
         this.queueView.hideQueueCard();
         let questions: Question[];
@@ -94,10 +97,17 @@ export class GameController {
         });
     }
 
+    /**
+     * This updates the 'answering' card with how many cards each player has filled out
+     * @param questions The array of questions
+     */
     public updateAnsweringCard(questions) {
         AnsweringView.showAnsweringCard(this.playerController.players, questions);
     }
 
+    /**
+     * This starts the voting part of the game
+     */
     public async startVoting() {
         this.loadingView.hideLoading();
         this.votingView.showVotingPreviewCard();
@@ -105,25 +115,46 @@ export class GameController {
         await GameController.wait(3);
 
         this.votingView.hideVotingPreviewCard();
-        this.showNextQuestion();
+
+        if (!this.showNextVoteQuestion()) {
+            this.endVotingPhase();
+        }
     }
 
-    private showNextQuestion(): boolean {
-        if (this.questionController.questions.length >= 1) {
-            const question = this.questionController.questions[0];
-            this.showQuestionAnswers(question);
+    /**
+     * Shows the next question in the 'voting' phase
+     * @private
+     */
+    private showNextVoteQuestion(): boolean {
+        const q = this.questionController.getNextQuestionToVoteOn();
+
+        if (q != null) {
+            this.listeningService.broadcast({
+                'destination': 'player',
+                'type': 'voteOnAnswers',
+                'question': q
+            })
+
+            this.showQuestionAnswers(q, false);
+
             return true
         }
 
         return false;
     }
 
-    private showQuestionAnswers(question: Question) {
+    /**
+     * Show the points and uses for all answers on the screen
+     * @param question The question to show
+     * @param showScores Whether to show the scores or not
+     * @private
+     */
+    private showQuestionAnswers(question: Question, showScores: boolean) {
         this.votingView.updateVotingCard(question.answers, [{
             answer_id: question.answers[0].id,
             votes: 2,
             points: 1200
-        }], true);
+        }], showScores);
 
         this.votingView.showVotingCard();
     }
@@ -132,5 +163,13 @@ export class GameController {
         return new Promise((resolve) => {
             window.setTimeout(() => resolve(), seconds * 1000)
         });
+    }
+
+    /**
+     * Ends the voting phase
+     * @private
+     */
+    private endVotingPhase() {
+        console.log("The voting phase has ended!");
     }
 }
