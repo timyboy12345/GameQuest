@@ -16,7 +16,7 @@ export class AnsweringView {
 
     static updateAnsweringCard(players: User[], questions: Question[]) {
         let cards = document.querySelectorAll('#answersCard #answersCardPlayers .playerCard');
-        Array.from(cards).forEach((div) => div.remove())
+        Array.from(cards).forEach((div) => div.remove());
 
         players.forEach(player => {
             let answeredQuestions = 0;
@@ -26,10 +26,10 @@ export class AnsweringView {
                         answeredQuestions++;
                     }
                 })
-            })
+            });
 
             const el = document.createElement("div");
-            el.classList.add("playerCard", "w-1/2", "sm:w-1/4", "md:w-1/6", "lg:w-1/8", "xl:w-1/12", "text-center");
+            el.classList.add("playerCard", "w-1/2", "sm:w-1/3", "md:w-1/4", "lg:w-1/5", "text-center");
             el.title = player.id;
 
             const card = document.createElement("div");

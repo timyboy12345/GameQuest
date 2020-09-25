@@ -15,12 +15,13 @@
 </head>
 
 <body class="antialiased bg-gray-100">
-<nav class="flex items-center justify-between flex-wrap @yield('theme-bg', 'bg-blue-500') p-6 shadow-lg">
+<nav class="flex items-center justify-between flex-wrap @yield('theme-bg', 'bg-blue-500') p-6 shadow-lg fixed left-0 top-0 w-full z-50">
     <a href="{{ route('home') }}" class="flex items-center flex-shrink-0 text-white mr-6">
         <span class="font-semibold text-xl tracking-tight">{{ config('app.name') }}</span>
     </a>
 </nav>
 
+<div class="@yield('spacer', 'py-16')"></div>
 @yield('content')
 </body>
 </html>

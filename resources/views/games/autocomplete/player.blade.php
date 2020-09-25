@@ -9,7 +9,22 @@
 @endsection
 
 @section('content')
-    <div class="w-full mix-wl-md mx-auto mt-16" id="queueCard">
+    <div class="w-full mix-wl-md mx-auto mt-16 hidden" id="loadingCard">
+        <div class="text-center">
+            <h1 class="text-indigo-900 text-3xl font-bold">
+                {{ __("Leuk dat je er bent!") }}
+            </h1>
+            <h3 class="text-gray-800 w-10/12 mx-auto">
+                {{ __("Even geduld, we zijn je aan het aanmelden bij het spel.") }}
+            </h3>
+
+            <p class="text-sm text-gray-600 mt-12 w-9/12 md:w-8/12 lg:w-1/2 mx-auto">
+                {{ __("Check zometeen of je je eigen naam op het scherm ziet staan, dan weet je zeker dat je in het juiste spel zit, met de juiste inlogggegevens!") }}
+            </p>
+        </div>
+    </div>
+
+    <div class="w-full mix-wl-md mx-auto mt-16 hidden" id="queueCard">
         <div class="text-center">
             <h1 class="text-indigo-900 text-3xl font-bold">
                 {{ __("Je doet mee") }}
@@ -35,9 +50,9 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="answer">
                     {{ __("Jouw antwoord") }}
                 </label>
-                <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="answer" type="text" placeholder="{{ __("Antwoord") }}">
+                <input autocomplete="off"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="answer" type="text" placeholder="{{ __("Antwoord") }}">
             </div>
             <div class="flex items-center justify-between">
                 <div class="btn btn-indigo" id="submit">

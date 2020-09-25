@@ -4,6 +4,8 @@ import {GameService} from "../_services/game.service";
 import {QuestionController} from "./question.controller";
 import {Question} from "../../_models/question.interface";
 import {InputView} from "../_views/input.view";
+import {QueueView} from "../_views/queue.view";
+import {LoadingView} from "../_views/loading.view";
 
 export class GameController {
     public readonly userService: UserService;
@@ -20,6 +22,7 @@ export class GameController {
         const l = this.listeningService;
 
         this.inputView = new InputView(this);
+        LoadingView.showLoadingCard();
 
         this.gameService.getCurrentGame().then(game => {
             if (game == null) {
@@ -32,6 +35,9 @@ export class GameController {
                 l.broadcast({
                     'type': 'joinedGame',
                     user, game
+                }).then(() => {
+                    LoadingView.hideLoadingCard();
+                    QueueView.showQueueCard();
                 });
             }).catch(reason => {
                 console.error(reason);

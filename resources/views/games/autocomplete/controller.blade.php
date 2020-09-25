@@ -87,5 +87,11 @@
         <div class="w-10/12 mx-auto flex flex-wrap justify-center" id="answersCardPlayers"></div>
     </div>
 
+    <div class="w-full bg-blue-800 min-h-full absolute top-0 left-0">
+        <div class="text-white text-center flex content-center mt-32 flex-col">
+            <h1 class="font-bold text-3xl">Welke grap is leuker?</h1>
+        </div>
+    </div>
+
     <script src="{{ mix('js/games/autocomplete/controller.js') }}"></script>
 @endsection
