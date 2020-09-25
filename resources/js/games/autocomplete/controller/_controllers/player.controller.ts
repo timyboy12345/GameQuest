@@ -40,4 +40,8 @@ export class PlayerController {
     get players(): User[] {
         return this._players;
     }
+
+    public findPlayer(player_id: string): User {
+        return this._players.find(p => p.id == player_id);
+    }
 }

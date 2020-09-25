@@ -22,6 +22,7 @@ export class GameController {
     public readonly questionController: QuestionController;
     public readonly playerController: PlayerController;
     public readonly loadingView: LoadingView;
+    public readonly votingView: VotingView;
 
     private _buttonService: ButtonService;
     private _game: Game;
@@ -33,6 +34,7 @@ export class GameController {
         this.queueView = new QueueView(this.playerController);
         this.questionController = new QuestionController(this.listeningService, this);
         this.loadingView = new LoadingView(this);
+        this.votingView = new VotingView(this);
 
         this._buttonService = new ButtonService(this);
 
@@ -98,14 +100,35 @@ export class GameController {
 
     public async startVoting() {
         this.loadingView.hideLoading();
-        VotingView.showVotingCard();
+        this.votingView.showVotingPreviewCard();
 
-        await this.wait(3);
+        await GameController.wait(3);
 
-        VotingView.hideVotingCard();
+        this.votingView.hideVotingPreviewCard();
+        this.showNextQuestion();
     }
 
-    public async wait(seconds: number = 3): Promise<void> {
+    private showNextQuestion(): boolean {
+        if (this.questionController.questions.length >= 1) {
+            const question = this.questionController.questions[0];
+            this.showQuestionAnswers(question);
+            return true
+        }
+
+        return false;
+    }
+
+    private showQuestionAnswers(question: Question) {
+        this.votingView.updateVotingCard(question.answers, [{
+            answer_id: question.answers[0].id,
+            votes: 2,
+            points: 1200
+        }], true);
+
+        this.votingView.showVotingCard();
+    }
+
+    static async wait(seconds: number = 3): Promise<void> {
         return new Promise((resolve) => {
             window.setTimeout(() => resolve(), seconds * 1000)
         });

@@ -78,7 +78,7 @@
         <div class="w-10/12 mx-auto flex flex-wrap justify-center" id="answersCardPlayers"></div>
     </div>
 
-    <div class="w-full mt-16 hidden" id="votingCard">
+    <div class="w-full mt-16 hidden" id="votingPreviewCard">
         <div class="text-center mb-16">
             <h3 class="text-indigo-900 font-bold text-center text-2xl">{{ __("Dat werd tijd!") }}</h3>
             <p class="text-gray-800">{{ __("Alle vragen zijn beantwoord, tijd om te stemmen.") }}</p>
@@ -87,9 +87,30 @@
         <div class="w-10/12 mx-auto flex flex-wrap justify-center" id="answersCardPlayers"></div>
     </div>
 
-    <div class="w-full bg-blue-800 min-h-full absolute top-0 left-0">
+    <div class="w-full bg-blue-800 min-h-full absolute top-0 left-0 hidden duration-200 opacity-0" id="votingCard">
         <div class="text-white text-center flex content-center mt-32 flex-col">
-            <h1 class="font-bold text-3xl">Welke grap is leuker?</h1>
+            <h1 class="text-xl">Welke grap is leuker?</h1>
+            <h2 class="text-3xl font-bold text-gray-100">Dit is een grap</h2>
+
+            <div class="flex justify-center mt-12 votingCardAnswerList">
+                @for ($i = 0; $i < 2; $i++)
+                    <div class="card mx-4 text-black relative votingCardAnswer">
+                        <div
+                            class="absolute bg-blue-900 shadow-lg text-white rounded-full right-0 top-0 pt-3 scoreDot opacity-0 duration-100"
+                            style="height: 50px; width: 50px; right: -25px; top: -25px;">
+                            {{ ($i + 1) * 1200 }}
+                        </div>
+
+                        <div class="card-body">
+                            Boe
+                        </div>
+
+                        <div class="card-footer">
+                            {{ $i * 2 + 1 }} stemmen
+                        </div>
+                    </div>
+                @endfor
+            </div>
         </div>
     </div>
 

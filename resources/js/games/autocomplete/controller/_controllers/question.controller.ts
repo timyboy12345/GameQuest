@@ -9,8 +9,12 @@ import {AnsweringView} from "../_views/answering.view";
 export class QuestionController {
     private _questions: Question[];
 
-    constructor(public listeningService: ListeningService,
-                public gameController: GameController) {
+    get questions() {
+        return this._questions;
+    }
+
+    constructor(private listeningService: ListeningService,
+                private gameController: GameController) {
         window.addEventListener("submitAnswer", ((evt: CustomEvent) => {
             const data: {
                 answer: Answer,
@@ -75,5 +79,9 @@ export class QuestionController {
 
     private saveQuestions(): Promise<Game> {
         return this.gameController.gameService.saveQuestions(this._questions);
+    }
+
+    public findQuestion(question_id: string) {
+        return this._questions.find(q => q.id == question_id);
     }
 }
