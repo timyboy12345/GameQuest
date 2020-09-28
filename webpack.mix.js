@@ -1,6 +1,9 @@
 const mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
 
+require('laravel-mix-purgecss');
+
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,10 +15,25 @@ const tailwindcss = require('tailwindcss');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js');
+mix.disableSuccessNotifications();
 
-mix.sass('resources/sass/main.scss', 'public/css')
+mix
+    .js('resources/js/app.js', 'public/js')
+    .ts('resources/js/games/autocomplete/controller/controller.ts', 'public/js/games/autocomplete/controller.js')
+    .ts('resources/js/games/autocomplete/player/player.ts', 'public/js/games/autocomplete/player.js')
+    .sourceMaps(false, 'inline-source-map')
+    .sass('resources/sass/main.scss', 'public/css')
+    .sass('resources/sass/games/autocomplete.scss', 'public/css')
     .options({
         processCssUrls: false,
         postCss: [tailwindcss('./tailwind.config.js')],
+    })
+    .purgeCss({
+        enabled: mix.inProduction(),
+        folders: ['resources'],
+        extensions: ['js', 'ts', 'php', 'html']
     });
+
+if (mix.inProduction()) {
+    mix.version();
+}

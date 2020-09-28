@@ -4,43 +4,66 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ mix('css/main.css') }}">
+
+    @yield('head')
 </head>
 
-<body class="antialiased">
-<nav class="flex items-center justify-between flex-wrap bg-blue-500 p-6">
-    <div class="flex items-center flex-shrink-0 text-white mr-6">
-        <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
-        <span class="font-semibold text-xl tracking-tight">Tailwind CSS</span>
-    </div>
-    <div class="block lg:hidden">
-        <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
-            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+<body class="antialiased bg-gray-100">
+
+<nav class="flex items-center justify-between flex-wrap @yield('theme-bg', 'bg-blue-500') p-6 shadow-lg z-50">
+    <a href="{{ route('home') }}" class="flex items-center flex-shrink-0 text-white mr-6">
+        <span class="font-semibold text-xl tracking-tight">{{ config('app.name') }}</span>
+    </a>
+    <div class="block md:hidden">
+        <button id="expandMenuButton"
+            class="flex items-center px-3 py-2 border rounded @yield('theme-text', 'text-teal-200') @yield('theme-border', 'border-teal-400') hover:text-white hover:border-white">
+            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+            </svg>
         </button>
     </div>
-    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-        <div class="text-sm lg:flex-grow">
-            <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                Docs
+    <div class="w-full block flex-grow md:flex md:items-center md:w-auto hidden md:visible" id="expandableMenu">
+        <div class="text-sm md:flex-grow">
+            <a href="#responsive-header"
+               class="block mt-4 md:inline-block md:mt-0 @yield('theme-text', 'text-teal-200') hover:text-white mr-4">
+                Over GameQuest
             </a>
-            <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                Examples
-            </a>
-            <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
-                Blog
+            <a href="{{ route('games.games') }}"
+               class="block mt-4 md:inline-block md:mt-0 @yield('theme-text', 'text-teal-200') hover:text-white mr-4">
+                Games
             </a>
         </div>
-        <div>
-            <a href="#" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Download</a>
+        <div class="text-sm ml-auto">
+            @auth
+                <a href="{{ route('logout') }}"
+                   class="block mt-4 md:inline-block md:mt-0 @yield('theme-text', 'text-teal-200') hover:text-white mr-4">
+                    {{ __("Uitloggen") }}
+                </a>
+                <a href="{{ route('settings.settings') }}"
+                   class="block mt-4 md:inline-block md:mt-0 @yield('theme-text', 'text-teal-200') hover:text-white mr-4">
+                    {{ __("Instellingen") }}
+                </a>
+            @else
+                <a href="{{ route('login') }}"
+                   class="block mt-4 md:inline-block md:mt-0 @yield('theme-text', 'text-teal-200') hover:text-white mr-4">
+                    Inloggen
+                </a>
+                <a href="{{ route('register') }}" class="block mt-4 md:inline-block md:mt-0 @yield('theme-text', 'text-teal-200') hover:text-white mr-4">
+                    Registreren
+                </a>
+            @endauth
         </div>
     </div>
 </nav>
 
 @yield('content')
+
+<script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

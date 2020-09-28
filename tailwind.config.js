@@ -1,9 +1,9 @@
 module.exports = {
     future: {
         removeDeprecatedGapUtilities: true,
-        purgeLayersByDefault: true,
+        purgeLayersByDefault: false,
     },
-    purge: [],
+    purge: false,
     theme: {
         colors: {
             transparent: 'transparent',
