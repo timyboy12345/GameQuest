@@ -25,7 +25,10 @@ class GameFactory extends Factory
             'id' => $this->faker->uuid,
             'type' => $this->faker->randomElement(['autocomplete']),
             'state' => $this->faker->randomElement(['queue', 'playing', 'finished']),
-            'code' => $this->faker->asciify("******")
+            'code' => $this->faker->regexify("[A-Z]{5}"),
+            'data' => [
+                'name' => $this->faker->words(3, true)
+            ]
         ];
     }
 }

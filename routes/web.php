@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Auth\LogoutController;
 use App\Http\Controllers\Web\Auth\RegisterController;
 use App\Http\Controllers\Web\Games\Game\AutocompleteController;
+use App\Http\Controllers\Web\Games\Game\BardsController;
 use App\Http\Controllers\Web\Games\GamesController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,12 @@ Route::prefix('games')->name('games.')->group(function () {
         Route::get('', [AutocompleteController::class, 'info'])->name('info');
         Route::get('controller', [AutocompleteController::class, 'controller'])->name('controller');
         Route::get('player', [AutocompleteController::class, 'player'])->name('player');
+    });
+
+    Route::name('bards.')->middleware('auth')->prefix('bards')->group(function () {
+        Route::get('', [BardsController::class, 'info'])->name('info');
+        Route::get('controller', [BardsController::class, 'controller'])->name('controller');
+        Route::get('player', [BardsController::class, 'player'])->name('player');
     });
 });
 

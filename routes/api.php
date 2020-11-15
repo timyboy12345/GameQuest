@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Games\Bards\ControllerController;
 use App\Models\Game;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,72 +20,84 @@ use Nubs\RandomNameGenerator\All;
 |
 */
 
-Route::middleware('auth:api')->group(function () {
-    Route::get('user', function (Request $request) {
-        return $request->user();
+Route::middleware('auth:api')->get('user', function (Request $request) {
+    return $request->user();
+});
+
+Route::prefix('games')->group(function () {
+    Route::middleware('auth:api')->get('', function () {
+        $games = Auth::user()->games()->paginate();
+        return response()->json($games);
     });
 
-    Route::prefix('games')->group(function () {
-        Route::get('', function () {
-            $games = Auth::user()->games()->paginate();
-            return response()->json($games);
-        });
+    Route::get('code/{code}', function ($code) {
+        $game = Game::all()->where('code', $code)->first();
 
-        Route::get('game/{game_id}', function ($game_id) {
-            $game = Game::findOrFail($game_id);
-            return response()->json($game);
-        });
+        if ($game == null) {
+            return response()->json('', 404);
+        }
 
-        Route::post('game', function (Request $request) {
-            $request->validate([
-                'type' => 'required|string|in:autocomplete'
-            ]);
+        return response()->json($game);
+    });
 
-            $game = new Game();
-            $game->fill($request->only(['type']));
-            $game->id = Str::uuid()->toString();
-            $game->creator_id = $request->user()->id;
-            $game->code = Str::random(6);
+    Route::middleware('auth:api')->get('game/{game_id}', function ($game_id) {
+        $game = Game::findOrFail($game_id);
+        return response()->json($game);
+    });
 
-            $generator = All::create();
-            $name = $generator->getName();
-            $game->data = ['name' => $name];
+    Route::middleware('auth:api')->post('game', function (Request $request) {
+        $request->validate([
+            'type' => 'required|string|in:autocomplete'
+        ]);
 
-            $game->save();
+        $game = new Game();
+        $game->fill($request->only(['type']));
+        $game->id = Str::uuid()->toString();
+        $game->creator_id = $request->user()->id;
+        $game->code = Str::random(6);
 
-            return response()->json($game);
-        });
+        $generator = All::create();
+        $name = $generator->getName();
+        $game->data = ['name' => $name];
 
-        Route::post('game/{game_id}/players', function ($game_id, Request $request) {
-            $request->validate([
-                'user_id' => 'required|exists:users,id'
-            ]);
+        $game->save();
 
-            $game = Auth::user()->games()->findOrFail($game_id);
-            $user = User::findOrFail($request->post('user_id'));
+        return response()->json($game);
+    });
 
-            $players = $game->players ? $game->players : [];
-            array_push($players, $user);
-            $game->update(['players' => $players]);
+    Route::middleware('auth:api')->post('game/{game_id}/players', function ($game_id, Request $request) {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
 
-            return response()->json($game);
-        });
+        $game = Auth::user()->games()->findOrFail($game_id);
+        $user = User::findOrFail($request->post('user_id'));
 
-        Route::put('game/{game_id}/questions', function ($game_id, Request $request) {
-            $request->validate([
-                'questions' => 'required|array',
-                'questions.*.id' => 'required|string',
-                'questions.*.question' => 'required|string'
-            ]);
+        $players = $game->players ? $game->players : [];
+        array_push($players, $user);
+        $game->update(['players' => $players]);
 
-            $game = Auth::user()->games()->findOrFail($game_id);
+        return response()->json($game);
+    });
 
-            $data = $game->data;
-            $data->questions = $request->post('questions');
+    Route::prefix('game/{game_id}/bards')->name('bards')->group(function () {
+        Route::put('questions', [ControllerController::class, 'putQuestions']);
+    });
 
-            $game->update(['data' => $data]);
+    Route::middleware('auth:api')->put('game/{game_id}/questions', function ($game_id, Request $request) {
+        $request->validate([
+            'questions' => 'required|array',
+            'questions.*.id' => 'required|string',
+            'questions.*.question' => 'required|string'
+        ]);
 
-            return response()->json($game);
-        });
+        $game = Auth::user()->games()->findOrFail($game_id);
+
+        $data = $game->data;
+        $data->questions = $request->post('questions');
+
+        $game->update(['data' => $data]);
+
+        return response()->json($game);
     });
 });
