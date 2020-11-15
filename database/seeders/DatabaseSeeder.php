@@ -20,5 +20,13 @@ class DatabaseSeeder extends Seeder
                 'creator_id' => $user->id
             ]);
         });
+
+        User::factory()->create([
+            'email' => 'help@gamequest.nl'
+        ])->each(function ($user) {
+            Game::factory(5)->create([
+                'creator_id' => $user->id
+            ]);
+        });
     }
 }
