@@ -40,7 +40,7 @@ Route::prefix('games')->group(function () {
         return response()->json($game);
     });
 
-    Route::middleware('auth:api')->get('game/{game_id}', function ($game_id) {
+    Route::get('game/{game_id}', function ($game_id) {
         $game = Game::findOrFail($game_id);
         return response()->json($game);
     });
