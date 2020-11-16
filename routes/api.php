@@ -47,7 +47,7 @@ Route::prefix('games')->group(function () {
 
     Route::middleware('auth:api')->post('game', function (Request $request) {
         $request->validate([
-            'type' => 'required|string|in:autocomplete'
+            'type' => 'required|string|in:autocomplete,bards'
         ]);
 
         $game = new Game();
