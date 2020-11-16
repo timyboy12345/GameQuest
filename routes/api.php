@@ -25,9 +25,18 @@ Route::middleware('auth:api')->get('user', function (Request $request) {
 });
 
 Route::prefix('games')->group(function () {
-    Route::middleware('auth:api')->get('', function () {
-        $games = Auth::user()->games()->paginate();
-        return response()->json($games);
+    Route::middleware('auth:api')->get('', function (Request $request) {
+        $query = Game::query();
+
+        $request->validate([
+            'order'=>'nullable|string|in:asc,desc'
+        ]);
+
+        $query->where('creator_id', Auth::id());
+
+        $query->orderBy('created_at', $request->input('order', 'asc'));
+
+        return response()->json($query->paginate());
     });
 
     Route::get('code/{code}', function ($code) {
